@@ -532,7 +532,7 @@ I'm your **intelligent guide** to Physical AI & Humanoid Robotics, created by **
                 </svg>
               </div>
               <div className={styles.headerInfo}>
-                <h3>Physical AI Assistant</h3>
+                <h3>AI Chatbot</h3>
                 <span className={styles.status}>
                   <span className={styles.statusDot}></span>
                   Online • by Umema Sultan
