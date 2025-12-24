@@ -9,6 +9,7 @@ from slowapi.errors import RateLimitExceeded
 from slowapi.util import get_remote_address
 
 from app.config import get_settings
+from app.routers import chat
 
 settings = get_settings()
 
@@ -66,3 +67,7 @@ async def root():
         "docs": "/docs",
         "health": "/api/health",
     }
+
+
+# Include routers
+app.include_router(chat.router)
