@@ -516,7 +516,7 @@ I'm your **intelligent guide** to Physical AI & Humanoid Robotics, created by **
             </svg>
           )}
         </div>
-        {!isOpen && <span className={styles.fabLabel}>Ask AI</span>}
+        {!isOpen && <span className={styles.fabLabel}>AI Chatbot</span>}
         <div className={styles.fabPulse}></div>
       </button>
 
