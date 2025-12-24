@@ -280,11 +280,87 @@ I'm your **intelligent guide** to Physical AI & Humanoid Robotics, created by **
 
 ---
 *Built with ❤️ by Umema Sultan*
-*Powered by RAG + FastAPI + React*`
+*Powered by RAG + FastAPI + React*`,
+
+    "greeting": `## 👋 Hey there! Nice to meet you!
+
+I'm your **Physical AI Assistant**, created by **Umema Sultan**!
+
+I'm here to help you learn about **Humanoid Robotics** and **Physical AI**. 🤖
+
+### 💬 You can ask me things like:
+- "What is ROS 2?"
+- "How do robots learn to walk?"
+- "Explain Digital Twin"
+- "What is sensor fusion?"
+
+### 🎯 Or try these quick topics:
+- 🤖 **ROS 2** - Robot Operating System
+- 🎮 **Gazebo/Unity** - Simulation
+- ⚡ **NVIDIA Isaac** - GPU Robotics
+- 🦿 **RL Locomotion** - Teaching robots to walk
+
+**Go ahead, ask me anything!** I'm happy to help! 😊
+
+---
+*Your friendly AI assistant by Umema Sultan*`,
+
+    "thanks": `## 😊 You're welcome!
+
+I'm glad I could help! If you have more questions about **Physical AI** or **Humanoid Robotics**, feel free to ask anytime!
+
+### 🚀 Want to explore more?
+- Check out the **modules** in the sidebar
+- Try asking about **ROS 2**, **Isaac Gym**, or **Sensor Fusion**
+- Use the **voice input** 🎤 for hands-free questions
+
+Happy learning! 🤖
+
+*— Your AI Assistant by Umema Sultan*`,
+
+    "help": `## 🆘 How can I help you?
+
+I'm your **Physical AI Textbook Assistant**! Here's what I can do:
+
+### 📚 Topics I Know:
+| Ask about... | I'll explain... |
+|--------------|-----------------|
+| **ROS 2** | Nodes, topics, services, actions |
+| **Digital Twin** | Gazebo, Unity, simulation |
+| **NVIDIA Isaac** | GPU acceleration, IsaacLab |
+| **VLA Models** | Voice control, LLM planning |
+| **Sensor Fusion** | Kalman filter, IMU, VIO |
+| **RL Locomotion** | PPO, rewards, sim-to-real |
+
+### 💡 Example Questions:
+- "What is ROS 2?"
+- "How does Isaac Gym work?"
+- "Explain the Kalman Filter"
+- "How do robots learn to walk?"
+
+Just type your question and I'll do my best to help! 😊
+
+*— Built by Umema Sultan*`
   };
 
   const getLocalResponse = (question) => {
-    const q = question.toLowerCase();
+    const q = question.toLowerCase().trim();
+
+    // Greetings - Hi, Hello, Hey, etc.
+    if (q.match(/^(hi|hello|hey|hii|hiii|hiiii|helo|hellow|assalam|salam|aoa|good morning|good afternoon|good evening|sup|yo|howdy)[\s!?.]*$/i) ||
+        q.includes('how are you') || q.includes('kaise ho') || q.includes('kya hal'))
+      return fallbackResponses['greeting'];
+
+    // Thanks responses
+    if (q.match(/^(thanks|thank you|thanku|thnx|ty|shukriya|dhanyawad|thx)[\s!?.]*$/i) ||
+        q.includes('thanks') || q.includes('thank you'))
+      return fallbackResponses['thanks'];
+
+    // Help requests
+    if (q.match(/^(help|help me|what can you do|kya kar sakte ho)[\s!?.]*$/i))
+      return fallbackResponses['help'];
+
+    // Technical topics
     if (q.includes('ros') || q.includes('node') || q.includes('topic') || q.includes('service'))
       return fallbackResponses['ros'];
     if (q.includes('digital twin') || q.includes('gazebo') || q.includes('simulation') || q.includes('unity') || q.includes('simulator'))
@@ -297,6 +373,7 @@ I'm your **intelligent guide** to Physical AI & Humanoid Robotics, created by **
       return fallbackResponses['sensor fusion'];
     if (q.includes('reinforcement') || q.includes('learning') || q.includes('locomotion') || q.includes('walk') || q.includes('ppo') || q.includes('reward'))
       return fallbackResponses['reinforcement learning'];
+
     return fallbackResponses['default'];
   };
 
@@ -510,9 +587,8 @@ I'm your **intelligent guide** to Physical AI & Humanoid Robotics, created by **
               <line x1="6" y1="6" x2="18" y2="18"></line>
             </svg>
           ) : (
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-              <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
-              <path d="M8 10h.01M12 10h.01M16 10h.01"></path>
+            <svg viewBox="0 0 24 24" fill="currentColor">
+              <path d="M12 2a2 2 0 0 1 2 2c0 .74-.4 1.39-1 1.73V7h1a7 7 0 0 1 7 7h1a1 1 0 0 1 1 1v3a1 1 0 0 1-1 1h-1v1a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-1H2a1 1 0 0 1-1-1v-3a1 1 0 0 1 1-1h1a7 7 0 0 1 7-7h1V5.73c-.6-.34-1-.99-1-1.73a2 2 0 0 1 2-2M7.5 13A1.5 1.5 0 0 0 6 14.5A1.5 1.5 0 0 0 7.5 16A1.5 1.5 0 0 0 9 14.5A1.5 1.5 0 0 0 7.5 13m9 0a1.5 1.5 0 0 0-1.5 1.5a1.5 1.5 0 0 0 1.5 1.5a1.5 1.5 0 0 0 1.5-1.5a1.5 1.5 0 0 0-1.5-1.5M12 9a5 5 0 0 0-5 5v6h10v-6a5 5 0 0 0-5-5z"/>
             </svg>
           )}
         </div>

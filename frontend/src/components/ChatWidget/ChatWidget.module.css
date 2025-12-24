@@ -29,21 +29,21 @@
   position: relative;
   display: flex;
   align-items: center;
-  gap: 12px;
-  padding: 16px 24px;
+  gap: 8px;
+  padding: 10px 16px;
   background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
   background-size: 200% 200%;
   animation: gradientShift 3s ease infinite;
   border: none;
-  border-radius: 60px;
+  border-radius: 50px;
   cursor: pointer;
   color: white;
   font-weight: 700;
-  font-size: 15px;
+  font-size: 13px;
   letter-spacing: 0.3px;
   box-shadow:
-    0 8px 32px rgba(102, 126, 234, 0.4),
-    0 4px 16px rgba(118, 75, 162, 0.3),
+    0 6px 20px rgba(102, 126, 234, 0.4),
+    0 3px 10px rgba(118, 75, 162, 0.3),
     inset 0 1px 0 rgba(255, 255, 255, 0.2);
   transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
   overflow: hidden;
@@ -82,13 +82,13 @@
 }
 
 .fabOpen {
-  padding: 16px;
+  padding: 10px;
   border-radius: 50%;
 }
 
 .fabIcon {
-  width: 26px;
-  height: 26px;
+  width: 22px;
+  height: 22px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -100,19 +100,19 @@
 }
 
 .fabIcon svg {
-  width: 26px;
-  height: 26px;
+  width: 22px;
+  height: 22px;
   filter: drop-shadow(0 2px 4px rgba(0,0,0,0.2));
 }
 
 .fabLabel {
   white-space: nowrap;
-  font-size: 16px;
-  font-weight: 800;
-  letter-spacing: 0.5px;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.3px;
   display: inline-block;
   color: #ffffff !important;
-  text-shadow: 0 2px 4px rgba(0,0,0,0.4);
+  text-shadow: 0 1px 3px rgba(0,0,0,0.4);
   position: relative;
   z-index: 10;
 }
