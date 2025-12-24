@@ -1,0 +1,361 @@
+/**
+ * Physical AI & Humanoid Robotics Textbook
+ * Custom styles for academic layout
+ * Author: Umema Sultan
+ */
+
+:root {
+  /* Primary colors - Professional blue */
+  --ifm-color-primary: #1a56db;
+  --ifm-color-primary-dark: #1648c2;
+  --ifm-color-primary-darker: #1544b7;
+  --ifm-color-primary-darkest: #113897;
+  --ifm-color-primary-light: #2563eb;
+  --ifm-color-primary-lighter: #3b82f6;
+  --ifm-color-primary-lightest: #60a5fa;
+
+  /* Typography */
+  --ifm-font-family-base: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --ifm-heading-font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  --ifm-font-family-monospace: 'JetBrains Mono', 'Fira Code', Consolas, monospace;
+  --ifm-font-size-base: 16px;
+
+  /* Spacing */
+  --ifm-leading: 1.75;
+  --ifm-line-height-base: 1.75;
+  --ifm-paragraph-margin-bottom: 1.25rem;
+
+  /* Code blocks */
+  --ifm-code-font-size: 90%;
+  --ifm-code-border-radius: 6px;
+  --ifm-code-padding-vertical: 0.1rem;
+  --ifm-code-padding-horizontal: 0.3rem;
+  --docusaurus-highlighted-code-line-bg: rgba(0, 0, 0, 0.1);
+
+  /* Sidebar */
+  --doc-sidebar-width: 280px;
+}
+
+/* Dark mode */
+[data-theme='dark'] {
+  --ifm-color-primary: #60a5fa;
+  --ifm-color-primary-dark: #3b82f6;
+  --ifm-color-primary-darker: #2563eb;
+  --ifm-color-primary-darkest: #1d4ed8;
+  --ifm-color-primary-light: #93c5fd;
+  --ifm-color-primary-lighter: #bfdbfe;
+  --ifm-color-primary-lightest: #dbeafe;
+
+  --ifm-background-color: #0f172a;
+  --ifm-background-surface-color: #1e293b;
+  --docusaurus-highlighted-code-line-bg: rgba(0, 0, 0, 0.3);
+}
+
+/* Main content area */
+.markdown {
+  max-width: 800px;
+}
+
+/* Headings */
+.markdown h1 {
+  font-size: 2.25rem;
+  font-weight: 700;
+  margin-bottom: 1.5rem;
+  border-bottom: 2px solid var(--ifm-color-primary);
+  padding-bottom: 0.5rem;
+}
+
+.markdown h2 {
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin-top: 2.5rem;
+  margin-bottom: 1rem;
+  color: var(--ifm-color-primary-dark);
+}
+
+[data-theme='dark'] .markdown h2 {
+  color: var(--ifm-color-primary-light);
+}
+
+.markdown h3 {
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin-top: 2rem;
+  margin-bottom: 0.75rem;
+}
+
+/* Author blockquote styling */
+.markdown blockquote {
+  border-left: 4px solid var(--ifm-color-primary);
+  background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%);
+  padding: 0.75rem 1.25rem;
+  margin: 1.5rem 0;
+  border-radius: 0 8px 8px 0;
+  font-style: normal;
+}
+
+[data-theme='dark'] .markdown blockquote {
+  background: linear-gradient(135deg, rgba(30, 58, 138, 0.3) 0%, rgba(30, 64, 175, 0.2) 100%);
+}
+
+.markdown blockquote p {
+  margin: 0;
+}
+
+/* Tables */
+.markdown table {
+  display: table;
+  width: 100%;
+  margin: 1.5rem 0;
+  border-collapse: collapse;
+  font-size: 0.95rem;
+}
+
+.markdown table th {
+  background: var(--ifm-color-primary);
+  color: white;
+  font-weight: 600;
+  padding: 0.75rem 1rem;
+  text-align: left;
+}
+
+[data-theme='dark'] .markdown table th {
+  background: var(--ifm-color-primary-dark);
+}
+
+.markdown table td {
+  padding: 0.75rem 1rem;
+  border-bottom: 1px solid var(--ifm-color-emphasis-300);
+}
+
+.markdown table tr:hover {
+  background: var(--ifm-color-emphasis-100);
+}
+
+/* Code blocks */
+.markdown pre {
+  border-radius: 8px;
+  margin: 1.5rem 0;
+}
+
+.prism-code {
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+.markdown code {
+  font-size: 0.875rem;
+}
+
+/* Lists */
+.markdown ul,
+.markdown ol {
+  margin: 1rem 0;
+  padding-left: 1.5rem;
+}
+
+.markdown li {
+  margin: 0.5rem 0;
+  line-height: 1.7;
+}
+
+/* Horizontal rules */
+.markdown hr {
+  border: none;
+  border-top: 1px solid var(--ifm-color-emphasis-300);
+  margin: 2.5rem 0;
+}
+
+/* Learning objectives box */
+.learning-objectives,
+.chapter-summary {
+  background-color: var(--ifm-color-emphasis-100);
+  border-left: 4px solid var(--ifm-color-primary);
+  padding: 1rem 1.5rem;
+  margin: 1.5rem 0;
+  border-radius: 0 8px 8px 0;
+}
+
+.learning-objectives h4,
+.chapter-summary h4 {
+  margin-top: 0;
+  color: var(--ifm-color-primary);
+}
+
+/* Exercise boxes */
+.exercise {
+  background-color: #fff8e6;
+  border: 1px solid #ffd666;
+  padding: 1rem 1.5rem;
+  margin: 1.5rem 0;
+  border-radius: 8px;
+}
+
+[data-theme='dark'] .exercise {
+  background-color: rgba(255, 214, 102, 0.1);
+  border-color: rgba(255, 214, 102, 0.3);
+}
+
+.exercise h4 {
+  margin-top: 0;
+  color: #d48806;
+}
+
+[data-theme='dark'] .exercise h4 {
+  color: #ffd666;
+}
+
+/* Sidebar customization */
+.theme-doc-sidebar-container {
+  border-right: 1px solid var(--ifm-color-emphasis-200);
+}
+
+.theme-doc-sidebar-menu {
+  padding: 0.5rem;
+}
+
+.menu__link {
+  font-size: 0.9rem;
+  padding: 0.5rem 0.75rem;
+  border-radius: 6px;
+}
+
+.menu__link--active {
+  background: var(--ifm-color-primary-lightest);
+  color: var(--ifm-color-primary-darkest);
+  font-weight: 600;
+}
+
+[data-theme='dark'] .menu__link--active {
+  background: rgba(96, 165, 250, 0.15);
+  color: var(--ifm-color-primary-light);
+}
+
+/* Category labels */
+.menu__list-item-collapsible {
+  font-weight: 600;
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--ifm-color-emphasis-700);
+  margin-top: 1rem;
+}
+
+/* Footer */
+.footer {
+  background: #0f172a;
+  padding: 3rem 0;
+}
+
+.footer__title {
+  font-size: 0.875rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: 1rem;
+}
+
+.footer__link-item {
+  font-size: 0.9rem;
+  line-height: 2;
+}
+
+/* Table of contents */
+.table-of-contents {
+  font-size: 0.85rem;
+}
+
+.table-of-contents__link {
+  padding: 0.25rem 0;
+}
+
+.table-of-contents__link--active {
+  font-weight: 600;
+  color: var(--ifm-color-primary);
+}
+
+/* Navigation links at bottom of pages */
+.pagination-nav {
+  margin-top: 3rem;
+  padding-top: 2rem;
+  border-top: 1px solid var(--ifm-color-emphasis-200);
+}
+
+.pagination-nav__link {
+  border: 1px solid var(--ifm-color-emphasis-300);
+  border-radius: 8px;
+  padding: 1rem;
+  transition: all 0.2s ease;
+}
+
+.pagination-nav__link:hover {
+  border-color: var(--ifm-color-primary);
+  background: var(--ifm-color-primary-lightest);
+}
+
+[data-theme='dark'] .pagination-nav__link:hover {
+  background: rgba(96, 165, 250, 0.1);
+}
+
+/* Checkboxes in project sections */
+.markdown input[type="checkbox"] {
+  margin-right: 0.5rem;
+  transform: scale(1.1);
+}
+
+/* Responsive images */
+.markdown img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 4px;
+}
+
+/* Responsive adjustments */
+@media (max-width: 996px) {
+  .markdown h1 {
+    font-size: 1.75rem;
+  }
+
+  .markdown h2 {
+    font-size: 1.35rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .markdown {
+    font-size: 15px;
+  }
+
+  .prism-code {
+    font-size: 13px;
+  }
+}
+
+/* Print styles for academic use */
+@media print {
+  .navbar,
+  .footer,
+  .theme-doc-sidebar-container,
+  .table-of-contents,
+  .pagination-nav {
+    display: none !important;
+  }
+
+  .markdown {
+    max-width: 100%;
+    font-size: 11pt;
+  }
+
+  .markdown h1 {
+    font-size: 18pt;
+  }
+
+  .markdown h2 {
+    font-size: 14pt;
+    break-after: avoid;
+  }
+
+  .markdown pre {
+    break-inside: avoid;
+  }
+}

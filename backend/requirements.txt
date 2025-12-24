@@ -1,0 +1,21 @@
+# Core dependencies
+fastapi>=0.115.0
+uvicorn[standard]>=0.32.0
+pydantic>=2.10.0
+pydantic-settings>=2.6.0
+
+# RAG dependencies
+sentence-transformers>=3.3.0
+qdrant-client>=1.12.0
+
+# HTTP client for LLM API
+httpx>=0.28.0
+
+# Environment and rate limiting
+python-dotenv>=1.0.0
+slowapi>=0.1.9
+
+# Development dependencies
+pytest>=8.3.0
+pytest-asyncio>=0.24.0
+ruff>=0.8.0
