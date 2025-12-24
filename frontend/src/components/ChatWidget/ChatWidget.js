@@ -16,7 +16,8 @@ const ChatWidget = () => {
   const messagesEndRef = useRef(null);
   const inputRef = useRef(null);
 
-  const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:8000';
+  // Production API URL - Update this after deploying backend to Render
+  const API_URL = 'https://physical-ai-chatbot-api.onrender.com';
 
   const suggestedQuestions = [
     "What is ROS 2?",

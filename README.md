@@ -3,10 +3,13 @@
 [![Docusaurus](https://img.shields.io/badge/Docusaurus-3.x-blue?logo=docusaurus)](https://docusaurus.io/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
 [![Deploy](https://img.shields.io/badge/Deploy-Vercel-black?logo=vercel)](https://vercel.com)
+[![AI Chatbot](https://img.shields.io/badge/AI-Chatbot-purple?logo=openai)](https://physical-ai-humanoid-robotics-textbook.vercel.app)
 
 A comprehensive open-source textbook for building intelligent embodied systems. From ROS 2 middleware to reinforcement learning locomotion, this resource covers the complete Physical AI stack for humanoid robotics.
 
-[**Read the Textbook →**](https://physical-ai-textbook.vercel.app)
+**Features an AI-powered chatbot** that answers questions about the textbook content!
+
+[**Read the Textbook →**](https://physical-ai-humanoid-robotics-textbook.vercel.app)
 
 ---
 
@@ -17,11 +20,11 @@ Physical AI represents the convergence of machine learning, robotics, and embodi
 **Key Features:**
 
 - 📚 **6 comprehensive modules** covering the full humanoid robotics stack
+- 🤖 **AI Chatbot** - Ask questions about any topic in the textbook
 - 🎓 **University-level content** with practical, hands-on approach
-- 🤖 **RAG-ready architecture** for AI-powered Q&A integration
 - 🌙 **Dark mode support** for comfortable reading
 - 📱 **Fully responsive** design for all devices
-- 🖨️ **Print-optimized** styles for academic use
+- 🔍 **RAG-powered** retrieval for accurate answers
 
 ---
 
@@ -39,7 +42,7 @@ Physical AI represents the convergence of machine learning, robotics, and embodi
 Each module includes:
 - Learning objectives
 - Conceptual explanations
-- Practical examples
+- Practical code examples
 - Capstone projects
 - Key takeaways
 
@@ -49,27 +52,23 @@ Each module includes:
 
 | Component | Technology |
 |-----------|------------|
-| Documentation | [Docusaurus 3.x](https://docusaurus.io/) |
-| Frontend | React 18, TypeScript |
-| Styling | Custom CSS, Dark Mode |
-| Hosting | Vercel (free tier) |
-| RAG Backend | FastAPI, Qdrant, Groq (optional) |
+| Frontend | [Docusaurus 3.x](https://docusaurus.io/), React 18 |
+| Backend | FastAPI, Python 3.11 |
+| AI/ML | Groq LLM, Sentence Transformers |
+| Vector DB | Qdrant Cloud |
+| Frontend Hosting | Vercel (free) |
+| Backend Hosting | Render (free) |
 
 ---
 
 ## Quick Start
 
-### Prerequisites
-
-- Node.js 18+
-- npm or yarn
-
-### Local Development
+### Frontend (Docusaurus)
 
 ```bash
 # Clone the repository
-git clone https://github.com/umemasultan/physical-ai-textbook.git
-cd physical-ai-textbook
+git clone https://github.com/umemasultan/Physical-AI-Humanoid-Robotics-Textbook.git
+cd Physical-AI-Humanoid-Robotics-Textbook
 
 # Install dependencies
 cd frontend
@@ -81,122 +80,137 @@ npm start
 
 Open [http://localhost:3000](http://localhost:3000) to view the textbook.
 
-### Build for Production
+### Backend (AI Chatbot)
 
 ```bash
-npm run build
-```
+# Navigate to backend
+cd backend
 
-The static files will be generated in `frontend/build/`.
+# Create virtual environment
+python -m venv venv
+source venv/bin/activate  # On Windows: venv\Scripts\activate
+
+# Install dependencies
+pip install -r requirements.txt
+
+# Configure environment
+cp .env.example .env
+# Edit .env with your API keys (see below)
+
+# Embed textbook content
+python scripts/embed_content.py
+
+# Start server
+uvicorn app.main:app --reload
+```
 
 ---
 
-## Deployment (Vercel)
+## AI Chatbot Deployment
 
-Deploy to Vercel's free tier in minutes:
+### Step 1: Get Free API Keys
 
-### Option 1: One-Click Deploy
+1. **Qdrant Cloud** (Vector Database)
+   - Go to [cloud.qdrant.io](https://cloud.qdrant.io)
+   - Create free account → Create cluster
+   - Copy: `QDRANT_URL` and `QDRANT_API_KEY`
 
-[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/umemasultan/physical-ai-textbook)
+2. **Groq** (LLM API - Super Fast!)
+   - Go to [console.groq.com](https://console.groq.com)
+   - Create free account
+   - Copy: `GROQ_API_KEY`
 
-### Option 2: Manual Setup
+### Step 2: Deploy Backend to Render
 
-1. **Fork this repository**
-
-2. **Connect to Vercel**
-   - Go to [vercel.com](https://vercel.com)
-   - Sign in with GitHub
-   - Click "New Project"
-   - Import your forked repository
-
-3. **Configure Build Settings**
+1. Go to [render.com](https://render.com) → Sign up with GitHub
+2. Click **New** → **Web Service**
+3. Connect your GitHub repo
+4. Configure:
    ```
-   Framework Preset: Docusaurus 2
-   Root Directory: frontend
-   Build Command: npm run build
-   Output Directory: build
+   Name: physical-ai-chatbot-api
+   Root Directory: backend
+   Runtime: Python 3
+   Build Command: pip install -r requirements.txt
+   Start Command: uvicorn app.main:app --host 0.0.0.0 --port $PORT
    ```
+5. Add Environment Variables:
+   ```
+   QDRANT_URL=your-qdrant-url
+   QDRANT_API_KEY=your-qdrant-key
+   GROQ_API_KEY=your-groq-key
+   CORS_ORIGINS=https://physical-ai-humanoid-robotics-textbook.vercel.app
+   APP_ENV=production
+   ```
+6. Click **Create Web Service**
 
-4. **Deploy**
-   - Click "Deploy"
-   - Your site will be live at `https://your-project.vercel.app`
+### Step 3: Embed Content (One-time)
 
-### Custom Domain (Optional)
+After backend is deployed, run locally:
+```bash
+cd backend
+python scripts/embed_content.py
+```
 
-1. Go to Project Settings → Domains
-2. Add your custom domain
-3. Configure DNS as instructed
+### Step 4: Update Frontend API URL
+
+In `frontend/src/components/ChatWidget/ChatWidget.js`, update:
+```javascript
+const API_URL = 'https://your-backend-name.onrender.com';
+```
+
+Push changes → Vercel will auto-deploy!
 
 ---
 
 ## Project Structure
 
 ```
-physical-ai-textbook/
+Physical-AI-Humanoid-Robotics-Textbook/
 ├── frontend/                    # Docusaurus site
-│   ├── docs/                    # Markdown content
-│   │   ├── overview/            # Preface & Introduction
-│   │   ├── module-1-ros2/       # ROS 2 module
-│   │   ├── module-2-digital-twin/
-│   │   ├── module-3-ai-brain/
-│   │   ├── module-4-vla/
-│   │   ├── module-5-rl-locomotion/
-│   │   ├── module-6-sensor-fusion/
-│   │   └── conclusion/          # Future of Physical AI
+│   ├── docs/                    # Markdown content (6 modules)
 │   ├── src/
-│   │   ├── css/                 # Custom styles
-│   │   └── pages/               # Custom pages
-│   ├── static/                  # Images, assets
-│   ├── docusaurus.config.js     # Site configuration
-│   └── sidebars.js              # Navigation structure
-├── backend/                     # RAG service (optional)
-├── specs/                       # Design documents
+│   │   ├── components/
+│   │   │   └── ChatWidget/      # AI Chatbot component
+│   │   ├── css/
+│   │   └── theme/
+│   ├── docusaurus.config.js
+│   └── sidebars.js
+├── backend/                     # FastAPI RAG service
+│   ├── app/
+│   │   ├── main.py              # FastAPI app
+│   │   ├── routers/chat.py      # Chat endpoint
+│   │   ├── services/
+│   │   │   ├── rag_service.py   # RAG logic
+│   │   │   └── embedding_service.py
+│   │   └── models/schemas.py
+│   ├── scripts/
+│   │   └── embed_content.py     # Embedding script
+│   ├── requirements.txt
+│   └── render.yaml              # Render deployment config
 └── README.md
 ```
 
 ---
 
-## RAG Integration (Optional)
+## Environment Variables
 
-This textbook is designed to support RAG (Retrieval-Augmented Generation) for AI-powered Q&A:
-
-```bash
-# Set up backend
-cd backend
-python -m venv venv
-source venv/bin/activate
-pip install -r requirements.txt
-
-# Configure environment
-cp .env.example .env
-# Edit .env with your API keys
-
-# Run embedding pipeline
-python scripts/embed_content.py
-
-# Start API server
-uvicorn app.main:app --reload
-```
-
-**Environment Variables:**
+### Backend (.env)
 
 ```env
+# Qdrant Cloud (FREE)
 QDRANT_URL=https://your-cluster.qdrant.io
-QDRANT_API_KEY=your-key
-GROQ_API_KEY=your-key
+QDRANT_API_KEY=your-api-key
+
+# Groq LLM (FREE)
+GROQ_API_KEY=your-groq-key
+
+# CORS
+CORS_ORIGINS=http://localhost:3000,https://your-vercel-url.vercel.app
+
+# App Config
+APP_ENV=production
+EMBEDDING_MODEL=all-MiniLM-L6-v2
 ```
-
----
-
-## Contributing
-
-Contributions are welcome! Please read our contributing guidelines before submitting PRs.
-
-1. Fork the repository
-2. Create your feature branch (`git checkout -b feature/AmazingFeature`)
-3. Commit your changes (`git commit -m 'Add AmazingFeature'`)
-4. Push to the branch (`git push origin feature/AmazingFeature`)
-5. Open a Pull Request
 
 ---
 
@@ -221,15 +235,14 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 ## Acknowledgments
 
 - [Docusaurus](https://docusaurus.io/) for the documentation framework
-- [ROS 2](https://docs.ros.org/) community for robotics middleware
+- [Qdrant](https://qdrant.tech/) for vector database
+- [Groq](https://groq.com/) for lightning-fast LLM inference
+- [Render](https://render.com/) for free backend hosting
+- [ROS 2](https://docs.ros.org/) community
 - [NVIDIA Isaac](https://developer.nvidia.com/isaac-sim) for simulation tools
-- The open-source robotics community
 
 ---
 
 <p align="center">
   <i>The robots are learning to walk. Let's learn to build them.</i>
 </p>
-"# Physical-AI-Humanoid-Robotics-Textbook" 
-"# Physical-AI-Humanoid-Robotics-Textbook" 
-"# Physical-AI-Humanoid-Robotics-Textbook" 
