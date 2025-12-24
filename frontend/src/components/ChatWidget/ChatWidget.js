@@ -128,9 +128,9 @@ Learn more in Module 5!`,
 
 Learn more in Module 6!`,
 
-    "default": `I'm the Physical AI Textbook Assistant by **Umema Sultan**!
+    "default": `I'm the **Physical AI Textbook Assistant** created by **Umema Sultan**! 🤖
 
-I can help you learn about:
+This textbook was authored by Umema Sultan to help you learn about:
 • **ROS 2** — Robot middleware
 • **Digital Twins** — Simulation with Gazebo/Unity
 • **NVIDIA Isaac** — GPU-accelerated robotics
