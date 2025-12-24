@@ -148,8 +148,8 @@
   position: absolute;
   bottom: 85px;
   right: 0;
-  width: 440px;
-  height: 640px;
+  width: 360px;
+  height: 520px;
   background: rgba(255, 255, 255, 0.95);
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
