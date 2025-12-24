@@ -19,6 +19,144 @@ const ChatWidget = () => {
   // Production API URL - Update this after deploying backend to Render
   const API_URL = 'https://physical-ai-chatbot-api.onrender.com';
 
+  // Fallback responses when backend is not available
+  const fallbackResponses = {
+    "ros": `**ROS 2 (Robot Operating System 2)** is the middleware that connects every part of a robot—sensors, actuators, and AI—into one coordinated system.
+
+**Key Features:**
+• **Modular architecture** — Build complex systems from independent, reusable components
+• **Language agnostic** — Write nodes in Python, C++, or both
+• **Real-time capable** — DDS-based communication with configurable QoS
+• **Hardware abstraction** — Same code runs in simulation and on physical robots
+
+**Core Concepts:**
+• **Nodes** — Independent processes that do one thing well
+• **Topics** — Publish/subscribe channels for streaming data
+• **Services** — Request/response for discrete operations
+• **Actions** — Long-running tasks with feedback
+
+Learn more in Module 1 of this textbook!`,
+
+    "digital twin": `**Digital Twin** is a complete virtual replica that mirrors physical behavior of your robot.
+
+**Components:**
+• **Geometric Model (URDF)** — 3D representation
+• **Physics Simulation** — Dynamics and forces
+• **Sensor Simulation** — Realistic noise models
+
+**Tools:**
+• **Gazebo** — Physics-accurate simulation with native ROS 2 integration
+• **Unity** — Photorealistic rendering for vision-based tasks
+• **Isaac Sim** — NVIDIA's GPU-accelerated simulator
+
+**Why Use It:**
+• Safe experimentation—robots can fall thousands of times without damage
+• Parallel training for reinforcement learning
+• Domain randomization for sim-to-real transfer
+
+Learn more in Module 2!`,
+
+    "isaac": `**NVIDIA Isaac** brings GPU acceleration to robotics through three pillars:
+
+**Isaac Sim:**
+• Photorealistic simulation with RTX ray tracing
+• Automatic ground truth labeling
+• Domain randomization built-in
+
+**Isaac ROS:**
+• GPU-accelerated perception (5-10x faster)
+• cuVSLAM for visual SLAM (90-120 Hz)
+• nvblox for real-time 3D mapping
+
+**Isaac Gym:**
+• Train 4096+ robots simultaneously
+• Zero CPU-GPU transfer during training
+• PPO/SAC algorithms built-in
+
+Learn more in Module 3!`,
+
+    "vla": `**Vision-Language-Action (VLA)** models bridge natural language understanding and physical robot action.
+
+**Pipeline:**
+\`\`\`
+Voice → Text → Understanding → Plan → Actions → Robot
+\`\`\`
+
+**Components:**
+• **Whisper** — Speech recognition
+• **LLM (GPT-4)** — Task decomposition & planning
+• **YOLO + CLIP** — Visual grounding
+• **ROS 2** — Action execution
+
+**Example:**
+User: "Pick up the red cup"
+Robot: Detects cup → Plans grasp → Executes motion
+
+Learn more in Module 4!`,
+
+    "sensor fusion": `**Sensor Fusion** combines data from multiple sensors to estimate robot state.
+
+**Key Algorithms:**
+• **Kalman Filter** — Optimal estimation for linear systems
+• **Extended Kalman Filter (EKF)** — For nonlinear systems
+• **Visual-Inertial Odometry (VIO)** — Camera + IMU fusion
+
+**Sensors Used:**
+• IMU (400 Hz) — Orientation, angular velocity
+• Cameras (30-60 Hz) — Visual features
+• Joint encoders (1000 Hz) — Position/velocity
+• Force/Torque sensors — Contact detection
+
+Learn more in Module 5!`,
+
+    "reinforcement learning": `**Reinforcement Learning for Locomotion** teaches robots to walk through trial and error.
+
+**Key Concepts:**
+• **Policy** — Neural network that maps observations to actions
+• **Reward Design** — Defines what "good walking" means
+• **Sim-to-Real Transfer** — Making simulation-trained policies work on real robots
+
+**Training Pipeline:**
+1. Train in Isaac Gym (4096 parallel robots)
+2. Apply domain randomization
+3. Export policy to real robot
+4. Fine-tune if needed
+
+**Popular Algorithms:**
+• PPO (Proximal Policy Optimization)
+• SAC (Soft Actor-Critic)
+
+Learn more in Module 6!`,
+
+    "default": `I'm the Physical AI Textbook Assistant by **Umema Sultan**!
+
+I can help you learn about:
+• **ROS 2** — Robot middleware
+• **Digital Twins** — Simulation with Gazebo/Unity
+• **NVIDIA Isaac** — GPU-accelerated robotics
+• **VLA Models** — Voice-controlled robots
+• **Sensor Fusion** — State estimation
+• **Reinforcement Learning** — Teaching robots to walk
+
+Try asking:
+• "What is ROS 2?"
+• "Explain Digital Twin"
+• "How does Isaac Gym work?"
+
+Or browse the modules in the sidebar! 📚`
+  };
+
+  const getLocalResponse = (question) => {
+    const q = question.toLowerCase();
+    if (q.includes('ros')) return fallbackResponses['ros'];
+    if (q.includes('digital twin') || q.includes('gazebo') || q.includes('simulation') || q.includes('unity')) return fallbackResponses['digital twin'];
+    if (q.includes('isaac') || q.includes('nvidia') || q.includes('gpu')) return fallbackResponses['isaac'];
+    if (q.includes('vla') || q.includes('vision') || q.includes('language') || q.includes('whisper') || q.includes('voice')) return fallbackResponses['vla'];
+    if (q.includes('sensor') || q.includes('fusion') || q.includes('kalman') || q.includes('imu')) return fallbackResponses['sensor fusion'];
+    if (q.includes('reinforcement') || q.includes('learning') || q.includes('locomotion') || q.includes('walk') || q.includes('ppo')) return fallbackResponses['reinforcement learning'];
+    return fallbackResponses['default'];
+  };
+
   const suggestedQuestions = [
     "What is ROS 2?",
     "Explain Digital Twin",
@@ -84,13 +222,15 @@ const ChatWidget = () => {
         },
       ]);
     } catch (error) {
+      // Use local fallback responses when backend is unavailable
+      const fallbackAnswer = getLocalResponse(userMessage);
       setMessages((prev) => [
         ...prev,
         {
           role: 'assistant',
-          content: 'I apologize, but I\'m having trouble connecting to the server. Please ensure the backend is running or try again later.',
+          content: fallbackAnswer,
           timestamp: new Date(),
-          isError: true,
+          sources: ['Local Knowledge Base'],
         },
       ]);
     } finally {
