@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef, useEffect, useCallback } from 'react';
 import styles from './ChatWidget.module.css';
 
 const ChatWidget = () => {
@@ -6,162 +6,307 @@ const ChatWidget = () => {
   const [messages, setMessages] = useState([
     {
       role: 'assistant',
-      content: 'Welcome to the Physical AI & Humanoid Robotics assistant! I can help you with questions about ROS 2, Digital Twins, NVIDIA Isaac, Vision-Language-Action models, Sensor Fusion, and Reinforcement Learning. What would you like to learn?',
+      content: '👋 **Welcome to Physical AI & Humanoid Robotics!**\n\nI\'m your intelligent assistant created by **Umema Sultan**. I can help you master:\n\n• 🤖 **ROS 2** - Robot middleware & architecture\n• 🎮 **Digital Twins** - Gazebo & Unity simulation\n• ⚡ **NVIDIA Isaac** - GPU-accelerated robotics\n• 🗣️ **VLA Models** - Voice-controlled robots\n• 📡 **Sensor Fusion** - State estimation\n• 🦿 **RL Locomotion** - Teaching robots to walk\n\nAsk me anything or try the suggestions below!',
       timestamp: new Date(),
     },
   ]);
   const [input, setInput] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [isMinimized, setIsMinimized] = useState(false);
+  const [isListening, setIsListening] = useState(false);
+  const [copiedIndex, setCopiedIndex] = useState(null);
+  const [showEmoji, setShowEmoji] = useState(false);
   const messagesEndRef = useRef(null);
   const inputRef = useRef(null);
+  const recognitionRef = useRef(null);
 
-  // Production API URL - Update this after deploying backend to Render
+  // Production API URL
   const API_URL = 'https://physical-ai-chatbot-api.onrender.com';
 
-  // Fallback responses when backend is not available
+  // Enhanced fallback responses with rich formatting
   const fallbackResponses = {
-    "ros": `**ROS 2 (Robot Operating System 2)** is the middleware that connects every part of a robot—sensors, actuators, and AI—into one coordinated system.
+    "ros": `## 🤖 ROS 2 (Robot Operating System 2)
 
-**Key Features:**
-• **Modular architecture** — Build complex systems from independent, reusable components
-• **Language agnostic** — Write nodes in Python, C++, or both
-• **Real-time capable** — DDS-based communication with configurable QoS
-• **Hardware abstraction** — Same code runs in simulation and on physical robots
+ROS 2 is the **middleware backbone** that connects every part of a robot—sensors, actuators, and AI—into one coordinated system.
 
-**Core Concepts:**
-• **Nodes** — Independent processes that do one thing well
-• **Topics** — Publish/subscribe channels for streaming data
-• **Services** — Request/response for discrete operations
-• **Actions** — Long-running tasks with feedback
+### 🎯 Key Features
+| Feature | Description |
+|---------|-------------|
+| **Modular** | Build complex systems from reusable components |
+| **Multi-language** | Write nodes in Python, C++, or both |
+| **Real-time** | DDS-based communication with configurable QoS |
+| **Portable** | Same code runs in simulation and on hardware |
 
-Learn more in Module 1 of this textbook!`,
+### 📦 Core Concepts
+- **Nodes** → Independent processes that do one thing well
+- **Topics** → Publish/subscribe channels for streaming data
+- **Services** → Request/response for discrete operations
+- **Actions** → Long-running tasks with feedback
 
-    "digital twin": `**Digital Twin** is a complete virtual replica that mirrors physical behavior of your robot.
+### 💡 Quick Example
+\`\`\`python
+import rclpy
+from rclpy.node import Node
 
-**Components:**
-• **Geometric Model (URDF)** — 3D representation
-• **Physics Simulation** — Dynamics and forces
-• **Sensor Simulation** — Realistic noise models
-
-**Tools:**
-• **Gazebo** — Physics-accurate simulation with native ROS 2 integration
-• **Unity** — Photorealistic rendering for vision-based tasks
-• **Isaac Sim** — NVIDIA's GPU-accelerated simulator
-
-**Why Use It:**
-• Safe experimentation—robots can fall thousands of times without damage
-• Parallel training for reinforcement learning
-• Domain randomization for sim-to-real transfer
-
-Learn more in Module 2!`,
-
-    "isaac": `**NVIDIA Isaac** brings GPU acceleration to robotics through three pillars:
-
-**Isaac Sim:**
-• Photorealistic simulation with RTX ray tracing
-• Automatic ground truth labeling
-• Domain randomization built-in
-
-**Isaac ROS:**
-• GPU-accelerated perception (5-10x faster)
-• cuVSLAM for visual SLAM (90-120 Hz)
-• nvblox for real-time 3D mapping
-
-**Isaac Gym:**
-• Train 4096+ robots simultaneously
-• Zero CPU-GPU transfer during training
-• PPO/SAC algorithms built-in
-
-Learn more in Module 3!`,
-
-    "vla": `**Vision-Language-Action (VLA)** models bridge natural language understanding and physical robot action.
-
-**Pipeline:**
-\`\`\`
-Voice → Text → Understanding → Plan → Actions → Robot
+class MinimalPublisher(Node):
+    def __init__(self):
+        super().__init__('minimal_publisher')
+        self.publisher_ = self.create_publisher(String, 'topic', 10)
 \`\`\`
 
-**Components:**
-• **Whisper** — Speech recognition
-• **LLM (GPT-4)** — Task decomposition & planning
-• **YOLO + CLIP** — Visual grounding
-• **ROS 2** — Action execution
+📚 **Learn more in Module 1!**`,
 
-**Example:**
-User: "Pick up the red cup"
-Robot: Detects cup → Plans grasp → Executes motion
+    "digital twin": `## 🎮 Digital Twin Technology
 
-Learn more in Module 4!`,
+A **Digital Twin** is a complete virtual replica that mirrors physical behavior of your robot in real-time.
 
-    "sensor fusion": `**Sensor Fusion** combines data from multiple sensors to estimate robot state.
+### 🏗️ Architecture Components
+\`\`\`
+┌─────────────────────────────────────────┐
+│           DIGITAL TWIN STACK            │
+├─────────────────────────────────────────┤
+│  🎨 Visualization    │  Unity/Unreal    │
+│  ⚙️ Physics Engine   │  PhysX/Bullet    │
+│  📐 Geometry Model   │  URDF/SDF        │
+│  📡 Sensor Sim       │  Ray-tracing     │
+│  🔗 ROS Bridge       │  ros2_control    │
+└─────────────────────────────────────────┘
+\`\`\`
 
-**Key Algorithms:**
-• **Kalman Filter** — Optimal estimation for linear systems
-• **Extended Kalman Filter (EKF)** — For nonlinear systems
-• **Visual-Inertial Odometry (VIO)** — Camera + IMU fusion
+### 🛠️ Simulation Tools
+| Tool | Best For | Key Feature |
+|------|----------|-------------|
+| **Gazebo** | Physics accuracy | Native ROS 2 |
+| **Unity** | Photorealism | ML-Agents |
+| **Isaac Sim** | GPU acceleration | Domain randomization |
 
-**Sensors Used:**
-• IMU (400 Hz) — Orientation, angular velocity
-• Cameras (30-60 Hz) — Visual features
-• Joint encoders (1000 Hz) — Position/velocity
-• Force/Torque sensors — Contact detection
+### 🎯 Why Use Digital Twins?
+- ✅ Safe experimentation—crash thousands of times
+- ✅ Parallel training for reinforcement learning
+- ✅ Domain randomization for sim-to-real transfer
+- ✅ Rapid prototyping before hardware exists
 
-Learn more in Module 5!`,
+📚 **Dive deeper in Module 2!**`,
 
-    "reinforcement learning": `**Reinforcement Learning for Locomotion** teaches robots to walk through trial and error.
+    "isaac": `## ⚡ NVIDIA Isaac Platform
 
-**Key Concepts:**
-• **Policy** — Neural network that maps observations to actions
-• **Reward Design** — Defines what "good walking" means
-• **Sim-to-Real Transfer** — Making simulation-trained policies work on real robots
+**NVIDIA Isaac** brings GPU acceleration to robotics through three powerful pillars:
 
-**Training Pipeline:**
-1. Train in Isaac Gym (4096 parallel robots)
-2. Apply domain randomization
-3. Export policy to real robot
-4. Fine-tune if needed
+### 🎮 Isaac Sim
+\`\`\`
+Performance Metrics:
+├── RTX Ray Tracing    → Photorealistic rendering
+├── PhysX 5.0          → 10x faster physics
+├── Synthetic Data     → Auto ground truth
+└── Domain Random      → Built-in variation
+\`\`\`
 
-**Popular Algorithms:**
-• PPO (Proximal Policy Optimization)
-• SAC (Soft Actor-Critic)
+### 🧠 Isaac ROS
+| Package | Function | Speedup |
+|---------|----------|---------|
+| **cuVSLAM** | Visual SLAM | 5-10x |
+| **nvblox** | 3D Mapping | Real-time |
+| **DNN Inference** | Perception | 10x+ |
 
-Learn more in Module 6!`,
+### 🏋️ Isaac Gym (Now IsaacLab)
+\`\`\`python
+# Train 4096 robots simultaneously!
+env = IsaacGymEnvs(
+    num_envs=4096,
+    physics_engine="GPU",
+    headless=True
+)
+# Zero CPU-GPU transfer during training
+\`\`\`
 
-    "default": `I'm the **Physical AI Textbook Assistant** created by **Umema Sultan**! 🤖
+### 🚀 Performance Comparison
+- Traditional: ~100 env steps/sec
+- Isaac Gym: ~100,000+ env steps/sec
+- **1000x speedup!**
 
-This textbook was authored by Umema Sultan to help you learn about:
-• **ROS 2** — Robot middleware
-• **Digital Twins** — Simulation with Gazebo/Unity
-• **NVIDIA Isaac** — GPU-accelerated robotics
-• **VLA Models** — Voice-controlled robots
-• **Sensor Fusion** — State estimation
-• **Reinforcement Learning** — Teaching robots to walk
+📚 **Master GPU robotics in Module 3!**`,
 
-Try asking:
-• "What is ROS 2?"
-• "Explain Digital Twin"
-• "How does Isaac Gym work?"
+    "vla": `## 🗣️ Vision-Language-Action Models
 
-Or browse the modules in the sidebar! 📚`
+**VLA Models** bridge natural language understanding and physical robot action—the key to intuitive human-robot interaction.
+
+### 🔄 Complete Pipeline
+\`\`\`
+┌──────────────────────────────────────────────────┐
+│                  VLA PIPELINE                     │
+├──────────────────────────────────────────────────┤
+│  🎤 Voice  →  📝 Text  →  🧠 LLM  →  📋 Plan    │
+│                   ↓                               │
+│  👁️ Vision  →  🎯 Grounding  →  🤖 Action       │
+└──────────────────────────────────────────────────┘
+\`\`\`
+
+### 🛠️ Technology Stack
+| Component | Technology | Purpose |
+|-----------|------------|---------|
+| **Speech** | Whisper | Voice → Text |
+| **Vision** | CLIP + YOLO | Scene understanding |
+| **Planning** | GPT-4/Claude | Task decomposition |
+| **Execution** | ROS 2 | Motor commands |
+
+### 💬 Example Interaction
+\`\`\`
+User: "Pick up the red cup and place it on the table"
+
+Robot Processing:
+1. 🎤 Whisper: Transcribe speech
+2. 🧠 LLM: Parse intent → [PICK(red_cup), PLACE(table)]
+3. 👁️ YOLO: Detect red cup at (x, y, z)
+4. 🦾 Motion: Plan & execute grasp
+5. ✅ Verify: Confirm task completion
+\`\`\`
+
+📚 **Build voice robots in Module 4!**`,
+
+    "sensor fusion": `## 📡 Sensor Fusion & State Estimation
+
+**Sensor Fusion** combines data from multiple sensors to estimate robot state with high accuracy and reliability.
+
+### 📊 Sensor Comparison
+\`\`\`
+┌─────────────┬──────────┬──────────┬───────────┐
+│   Sensor    │   Rate   │ Accuracy │   Drift   │
+├─────────────┼──────────┼──────────┼───────────┤
+│ IMU         │ 400 Hz   │ Medium   │ High      │
+│ Camera      │ 30-60 Hz │ High     │ Low       │
+│ LiDAR       │ 10-20 Hz │ V.High   │ None      │
+│ Encoders    │ 1000 Hz  │ High     │ Cumulative│
+└─────────────┴──────────┴──────────┴───────────┘
+\`\`\`
+
+### 🧮 Key Algorithms
+
+**Kalman Filter Family:**
+\`\`\`
+Standard KF  → Linear systems
+     ↓
+Extended KF  → Nonlinear (Jacobians)
+     ↓
+Unscented KF → Better nonlinear
+     ↓
+Particle Filter → Non-Gaussian
+\`\`\`
+
+### 🔧 EKF State Vector
+\`\`\`python
+state = [
+    x, y, z,           # Position
+    roll, pitch, yaw,  # Orientation
+    vx, vy, vz,        # Linear velocity
+    wx, wy, wz         # Angular velocity
+]  # 12-DOF state estimation
+\`\`\`
+
+### 🎯 Fusion Strategy
+- **IMU**: Fast but drifts → Short-term trust
+- **Vision**: Slow but stable → Long-term correction
+- **Result**: Best of both worlds!
+
+📚 **Master estimation in Module 5!**`,
+
+    "reinforcement learning": `## 🦿 Reinforcement Learning for Locomotion
+
+**RL Locomotion** teaches robots to walk through millions of simulated trials—learning from experience, not programming.
+
+### 🎯 The RL Framework
+\`\`\`
+┌─────────────────────────────────────────┐
+│         LOCOMOTION RL LOOP              │
+├─────────────────────────────────────────┤
+│  📷 Observation → 🧠 Policy → 🎬 Action │
+│         ↑                       ↓       │
+│         └──── 🏆 Reward ←──────┘        │
+└─────────────────────────────────────────┘
+\`\`\`
+
+### 📊 Reward Function Design
+\`\`\`python
+def compute_reward(robot):
+    reward = (
+        + 1.0 * forward_velocity      # Move forward
+        - 0.1 * energy_consumed       # Efficiency
+        - 0.5 * body_orientation_err  # Stay upright
+        - 1.0 * ground_impact_force   # Smooth motion
+        + 0.2 * foot_clearance        # Lift feet
+    )
+    return reward
+\`\`\`
+
+### 🏋️ Training Pipeline
+| Stage | Environment | Duration |
+|-------|-------------|----------|
+| 1. Train | Isaac Gym (4096 robots) | ~2 hours |
+| 2. Evaluate | Sim with noise | ~30 min |
+| 3. Deploy | Real robot | Immediate |
+
+### 🔧 Sim-to-Real Techniques
+- ✅ **Domain Randomization** - Vary physics params
+- ✅ **Curriculum Learning** - Easy → Hard tasks
+- ✅ **System ID** - Match sim to real
+- ✅ **Residual Learning** - Fine-tune on hardware
+
+📚 **Train walking robots in Module 6!**`,
+
+    "default": `## 👋 Hello from Physical AI Assistant!
+
+I'm your **intelligent guide** to Physical AI & Humanoid Robotics, created by **Umema Sultan**.
+
+### 📚 What I Can Teach You
+
+| Module | Topic | Key Skills |
+|--------|-------|------------|
+| **1** | ROS 2 | Nodes, Topics, Services |
+| **2** | Digital Twin | Gazebo, Unity, Simulation |
+| **3** | NVIDIA Isaac | GPU Acceleration, IsaacLab |
+| **4** | VLA Models | Voice Control, LLM Planning |
+| **5** | Sensor Fusion | Kalman Filter, VIO |
+| **6** | RL Locomotion | PPO, Sim-to-Real |
+
+### 💡 Try Asking Me
+- *"Explain ROS 2 nodes and topics"*
+- *"How does Isaac Gym achieve 1000x speedup?"*
+- *"What is the Kalman Filter?"*
+- *"How do robots learn to walk?"*
+
+### 🎯 Quick Tips
+- Use **voice input** 🎤 for hands-free questions
+- **Copy responses** 📋 to save for later
+- Browse **modules** in the sidebar
+
+---
+*Built with ❤️ by Umema Sultan*
+*Powered by RAG + FastAPI + React*`
   };
 
   const getLocalResponse = (question) => {
     const q = question.toLowerCase();
-    if (q.includes('ros')) return fallbackResponses['ros'];
-    if (q.includes('digital twin') || q.includes('gazebo') || q.includes('simulation') || q.includes('unity')) return fallbackResponses['digital twin'];
-    if (q.includes('isaac') || q.includes('nvidia') || q.includes('gpu')) return fallbackResponses['isaac'];
-    if (q.includes('vla') || q.includes('vision') || q.includes('language') || q.includes('whisper') || q.includes('voice')) return fallbackResponses['vla'];
-    if (q.includes('sensor') || q.includes('fusion') || q.includes('kalman') || q.includes('imu')) return fallbackResponses['sensor fusion'];
-    if (q.includes('reinforcement') || q.includes('learning') || q.includes('locomotion') || q.includes('walk') || q.includes('ppo')) return fallbackResponses['reinforcement learning'];
+    if (q.includes('ros') || q.includes('node') || q.includes('topic') || q.includes('service'))
+      return fallbackResponses['ros'];
+    if (q.includes('digital twin') || q.includes('gazebo') || q.includes('simulation') || q.includes('unity') || q.includes('simulator'))
+      return fallbackResponses['digital twin'];
+    if (q.includes('isaac') || q.includes('nvidia') || q.includes('gpu') || q.includes('cuda'))
+      return fallbackResponses['isaac'];
+    if (q.includes('vla') || q.includes('vision') || q.includes('language') || q.includes('whisper') || q.includes('voice') || q.includes('speech'))
+      return fallbackResponses['vla'];
+    if (q.includes('sensor') || q.includes('fusion') || q.includes('kalman') || q.includes('imu') || q.includes('estimation') || q.includes('filter'))
+      return fallbackResponses['sensor fusion'];
+    if (q.includes('reinforcement') || q.includes('learning') || q.includes('locomotion') || q.includes('walk') || q.includes('ppo') || q.includes('reward'))
+      return fallbackResponses['reinforcement learning'];
     return fallbackResponses['default'];
   };
 
   const suggestedQuestions = [
-    "What is ROS 2?",
-    "Explain Digital Twin",
-    "How does Isaac Gym work?",
-    "What is VLA in robotics?",
+    "🤖 What is ROS 2?",
+    "🎮 Explain Digital Twin",
+    "⚡ How does Isaac Gym work?",
+    "🗣️ What is VLA in robotics?",
+    "📡 Explain Kalman Filter",
+    "🦿 How do robots learn to walk?",
   ];
 
   const scrollToBottom = () => {
@@ -178,12 +323,105 @@ Or browse the modules in the sidebar! 📚`
     }
   }, [isOpen]);
 
+  // Initialize speech recognition
+  useEffect(() => {
+    if ('webkitSpeechRecognition' in window || 'SpeechRecognition' in window) {
+      const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+      recognitionRef.current = new SpeechRecognition();
+      recognitionRef.current.continuous = false;
+      recognitionRef.current.interimResults = false;
+      recognitionRef.current.lang = 'en-US';
+
+      recognitionRef.current.onresult = (event) => {
+        const transcript = event.results[0][0].transcript;
+        setInput(transcript);
+        setIsListening(false);
+      };
+
+      recognitionRef.current.onerror = () => {
+        setIsListening(false);
+      };
+
+      recognitionRef.current.onend = () => {
+        setIsListening(false);
+      };
+    }
+  }, []);
+
+  const toggleVoiceInput = () => {
+    if (!recognitionRef.current) {
+      alert('Voice input is not supported in your browser');
+      return;
+    }
+
+    if (isListening) {
+      recognitionRef.current.stop();
+      setIsListening(false);
+    } else {
+      recognitionRef.current.start();
+      setIsListening(true);
+    }
+  };
+
   const formatTime = (date) => {
     return new Intl.DateTimeFormat('en-US', {
       hour: '2-digit',
       minute: '2-digit',
     }).format(date);
   };
+
+  // Simple markdown-like formatting
+  const formatMessage = (content) => {
+    if (!content) return '';
+
+    // Split by code blocks first
+    const parts = content.split(/(```[\s\S]*?```)/g);
+
+    return parts.map((part, index) => {
+      if (part.startsWith('```')) {
+        // Code block
+        const code = part.replace(/```\w*\n?/g, '').replace(/```$/g, '');
+        return (
+          <pre key={index} className={styles.codeBlock}>
+            <code>{code}</code>
+          </pre>
+        );
+      }
+
+      // Process other markdown
+      let formatted = part
+        // Headers
+        .replace(/^### (.*$)/gm, '<h4>$1</h4>')
+        .replace(/^## (.*$)/gm, '<h3>$1</h3>')
+        // Bold
+        .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+        // Italic
+        .replace(/\*(.*?)\*/g, '<em>$1</em>')
+        // Inline code
+        .replace(/`([^`]+)`/g, '<code class="inline-code">$1</code>')
+        // Links
+        .replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2" target="_blank" rel="noopener">$1</a>')
+        // Line breaks
+        .replace(/\n/g, '<br/>');
+
+      return <span key={index} dangerouslySetInnerHTML={{ __html: formatted }} />;
+    });
+  };
+
+  const copyMessage = useCallback((content, index) => {
+    // Strip markdown for plain text copy
+    const plainText = content
+      .replace(/\*\*(.*?)\*\*/g, '$1')
+      .replace(/\*(.*?)\*/g, '$1')
+      .replace(/`([^`]+)`/g, '$1')
+      .replace(/```[\s\S]*?```/g, '')
+      .replace(/^#{1,6} /gm, '')
+      .replace(/\[([^\]]+)\]\([^)]+\)/g, '$1');
+
+    navigator.clipboard.writeText(plainText);
+    setCopiedIndex(index);
+    setTimeout(() => setCopiedIndex(null), 2000);
+  }, []);
 
   const sendMessage = async (messageText = null) => {
     const userMessage = messageText || input.trim();
@@ -230,7 +468,7 @@ Or browse the modules in the sidebar! 📚`
           role: 'assistant',
           content: fallbackAnswer,
           timestamp: new Date(),
-          sources: ['Local Knowledge Base'],
+          sources: ['📚 Local Knowledge Base'],
         },
       ]);
     } finally {
@@ -249,11 +487,13 @@ Or browse the modules in the sidebar! 📚`
     setMessages([
       {
         role: 'assistant',
-        content: 'Chat cleared. How can I help you with Physical AI and Humanoid Robotics?',
+        content: '🔄 **Chat cleared!**\n\nHow can I help you with Physical AI and Humanoid Robotics?\n\n*— Your assistant, by Umema Sultan*',
         timestamp: new Date(),
       },
     ]);
   };
+
+  const quickEmojis = ['👍', '🤖', '💡', '🚀', '❤️', '🎯'];
 
   return (
     <div className={styles.chatWidget}>
@@ -271,9 +511,8 @@ Or browse the modules in the sidebar! 📚`
             </svg>
           ) : (
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-              <path d="M12 2a10 10 0 0 1 10 10c0 5.52-4.48 10-10 10a10 10 0 0 1-10-10A10 10 0 0 1 12 2z"></path>
+              <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
               <path d="M8 10h.01M12 10h.01M16 10h.01"></path>
-              <path d="M9 14c.83.64 1.86 1 3 1s2.17-.36 3-1"></path>
             </svg>
           )}
         </div>
@@ -357,14 +596,39 @@ Or browse the modules in the sidebar! 📚`
                     <div className={`${styles.message} ${
                       msg.role === 'user' ? styles.userMessage : styles.assistantMessage
                     } ${msg.isError ? styles.errorMessage : ''}`}>
-                      <div className={styles.messageContent}>{msg.content}</div>
+                      <div className={styles.messageContent}>
+                        {msg.role === 'assistant' ? formatMessage(msg.content) : msg.content}
+                      </div>
+
+                      {/* Message Actions */}
+                      {msg.role === 'assistant' && (
+                        <div className={styles.messageActions}>
+                          <button
+                            className={styles.actionBtn}
+                            onClick={() => copyMessage(msg.content, idx)}
+                            title="Copy message"
+                          >
+                            {copiedIndex === idx ? (
+                              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                                <path d="M20 6L9 17l-5-5"/>
+                              </svg>
+                            ) : (
+                              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                                <rect x="9" y="9" width="13" height="13" rx="2" ry="2"/>
+                                <path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/>
+                              </svg>
+                            )}
+                          </button>
+                        </div>
+                      )}
+
                       {msg.sources && msg.sources.length > 0 && (
                         <div className={styles.sources}>
                           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                             <path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/>
                             <path d="M14 2v6h6M16 13H8M16 17H8M10 9H8"/>
                           </svg>
-                          <span>Sources: {msg.sources.join(', ')}</span>
+                          <span>{msg.sources.join(', ')}</span>
                         </div>
                       )}
                       <span className={styles.timestamp}>{formatTime(msg.timestamp)}</span>
@@ -394,7 +658,7 @@ Or browse the modules in the sidebar! 📚`
               {/* Suggested Questions */}
               {messages.length <= 1 && (
                 <div className={styles.suggestions}>
-                  <p>Try asking:</p>
+                  <p>✨ Quick Questions:</p>
                   <div className={styles.suggestionChips}>
                     {suggestedQuestions.map((q, idx) => (
                       <button
@@ -409,9 +673,37 @@ Or browse the modules in the sidebar! 📚`
                 </div>
               )}
 
+              {/* Emoji Picker */}
+              {showEmoji && (
+                <div className={styles.emojiPicker}>
+                  {quickEmojis.map((emoji, idx) => (
+                    <button
+                      key={idx}
+                      className={styles.emojiBtn}
+                      onClick={() => {
+                        setInput(prev => prev + emoji);
+                        setShowEmoji(false);
+                      }}
+                    >
+                      {emoji}
+                    </button>
+                  ))}
+                </div>
+              )}
+
               {/* Input Area */}
               <div className={styles.inputArea}>
                 <div className={styles.inputWrapper}>
+                  <button
+                    onClick={() => setShowEmoji(!showEmoji)}
+                    className={styles.inputAction}
+                    title="Add emoji"
+                  >
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                      <circle cx="12" cy="12" r="10"/>
+                      <path d="M8 14s1.5 2 4 2 4-2 4-2M9 9h.01M15 9h.01"/>
+                    </svg>
+                  </button>
                   <input
                     ref={inputRef}
                     type="text"
@@ -422,6 +714,16 @@ Or browse the modules in the sidebar! 📚`
                     className={styles.input}
                     disabled={isLoading}
                   />
+                  <button
+                    onClick={toggleVoiceInput}
+                    className={`${styles.inputAction} ${isListening ? styles.listening : ''}`}
+                    title="Voice input"
+                  >
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                      <path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/>
+                      <path d="M19 10v2a7 7 0 0 1-14 0v-2M12 19v4M8 23h8"/>
+                    </svg>
+                  </button>
                   <button
                     onClick={() => sendMessage()}
                     disabled={isLoading || !input.trim()}
@@ -435,7 +737,7 @@ Or browse the modules in the sidebar! 📚`
                   </button>
                 </div>
                 <p className={styles.poweredBy}>
-                  Powered by RAG • Built with FastAPI & React
+                  🤖 Built by <strong>Umema Sultan</strong> • Powered by RAG
                 </p>
               </div>
             </>
