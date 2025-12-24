@@ -146,10 +146,10 @@
    ============================================ */
 .chatWindow {
   position: absolute;
-  bottom: 85px;
+  bottom: 75px;
   right: 0;
-  width: 360px;
-  height: 520px;
+  width: 320px;
+  height: 480px;
   background: rgba(255, 255, 255, 0.95);
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
