@@ -16,8 +16,8 @@
 
 .chatWidget {
   position: fixed;
-  bottom: 24px;
-  right: 24px;
+  bottom: 20px;
+  right: 20px;
   z-index: 99999;
   font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
 }
@@ -146,10 +146,10 @@
    ============================================ */
 .chatWindow {
   position: absolute;
-  bottom: 75px;
+  bottom: 60px;
   right: 0;
-  width: 320px;
-  height: 480px;
+  width: 340px;
+  height: 500px;
   background: rgba(255, 255, 255, 0.95);
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
