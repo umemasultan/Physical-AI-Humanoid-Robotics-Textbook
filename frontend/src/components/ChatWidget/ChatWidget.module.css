@@ -148,8 +148,8 @@
   position: absolute;
   bottom: 60px;
   right: 0;
-  width: 340px;
-  height: 500px;
+  width: 380px;
+  height: 550px;
   background: rgba(255, 255, 255, 0.95);
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
@@ -784,23 +784,24 @@
 
 .inputWrapper {
   display: flex;
-  gap: 6px;
+  gap: 8px;
   align-items: center;
-  background: linear-gradient(135deg, #f1f5f9 0%, #e2e8f0 100%);
-  border-radius: 16px;
-  padding: 6px;
+  background: #f8fafc;
+  border-radius: 25px;
+  padding: 8px 12px;
   transition: all 0.3s ease;
-  border: 2px solid transparent;
+  border: 2px solid #e2e8f0;
 }
 
 .inputWrapper:focus-within {
-  background: white;
+  background: #ffffff;
   border-color: #667eea;
-  box-shadow: 0 0 0 4px rgba(102, 126, 234, 0.15);
+  box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.15);
 }
 
 [data-theme='dark'] .inputWrapper {
-  background: linear-gradient(135deg, #252542 0%, #2d2d4a 100%);
+  background: #252542;
+  border-color: #3d3d5c;
 }
 
 [data-theme='dark'] .inputWrapper:focus-within {
