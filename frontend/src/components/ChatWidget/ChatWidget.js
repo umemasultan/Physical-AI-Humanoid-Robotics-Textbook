@@ -20,8 +20,18 @@ const ChatWidget = () => {
   const inputRef = useRef(null);
   const recognitionRef = useRef(null);
 
-  // Production API URL
-  const API_URL = 'https://physical-ai-chatbot-api.onrender.com';
+  // API URL - Simple fallback configuration
+  // For production, you can set this directly or use window object
+  const getApiUrl = () => {
+    // Check if running in browser and custom URL is set
+    if (typeof window !== 'undefined' && window.ENV_BACKEND_URL) {
+      return window.ENV_BACKEND_URL;
+    }
+    // Default to localhost for development
+    return 'http://127.0.0.1:8000';
+  };
+
+  const API_URL = getApiUrl();
 
   // Enhanced fallback responses with rich formatting
   const fallbackResponses = {

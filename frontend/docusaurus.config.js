@@ -20,6 +20,11 @@ const config = {
     locales: ['en'],
   },
 
+  // Custom fields for runtime configuration
+  customFields: {
+    backendUrl: process.env.BACKEND_URL || undefined,
+  },
+
   presets: [
     [
       'classic',
