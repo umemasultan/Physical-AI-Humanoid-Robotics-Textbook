@@ -3,13 +3,13 @@
 [![Docusaurus](https://img.shields.io/badge/Docusaurus-3.x-blue?logo=docusaurus)](https://docusaurus.io/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
 [![Deploy](https://img.shields.io/badge/Deploy-Vercel-black?logo=vercel)](https://vercel.com)
-[![AI Chatbot](https://img.shields.io/badge/AI-Chatbot-purple?logo=openai)](https://physical-ai-humanoid-robotics-textbook.vercel.app)
+[![AI Chatbot](https://img.shields.io/badge/AI-Chatbot-purple?logo=openai)](https://physicalairumanoidroboticstextbook.vercel.app)
 
 A comprehensive open-source textbook for building intelligent embodied systems. From ROS 2 middleware to reinforcement learning locomotion, this resource covers the complete Physical AI stack for humanoid robotics.
 
 **Features an AI-powered chatbot** that answers questions about the textbook content!
 
-[**Read the Textbook →**](https://physical-ai-humanoid-robotics-textbook.vercel.app)
+[**Read the Textbook →**](https://physicalairumanoidroboticstextbook.vercel.app)
 
 ---
 
@@ -138,7 +138,7 @@ uvicorn app.main:app --reload
    QDRANT_URL=your-qdrant-url
    QDRANT_API_KEY=your-qdrant-key
    GROQ_API_KEY=your-groq-key
-   CORS_ORIGINS=https://physical-ai-humanoid-robotics-textbook.vercel.app
+   CORS_ORIGINS=https://physicalairumanoidroboticstextbook.vercel.app
    APP_ENV=production
    ```
 6. Click **Create Web Service**

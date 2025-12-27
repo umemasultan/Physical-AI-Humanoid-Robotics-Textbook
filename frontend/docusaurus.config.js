@@ -7,7 +7,7 @@ const config = {
   tagline: 'A comprehensive textbook for building intelligent embodied systems',
   favicon: 'img/favicon.ico',
 
-  url: 'https://physical-ai-textbook.vercel.app',
+  url: 'https://physicalairumanoidroboticstextbook.vercel.app',
   baseUrl: '/',
 
   organizationName: 'umemasultan',
